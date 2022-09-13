@@ -1,0 +1,30 @@
+.container-add {
+	width: 400px;
+	margin: 50px auto;
+	padding: 20px;
+}
+
+.border {
+	border: 1px solid #4a4a4a;
+	border-radius: 10%;
+	box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
+}
+
+.h2-color  {
+	color: #485fc7;
+}
+
+.bg-color {
+	background-color: #f1f1f1;
+}
+
+.height {
+	height: 100px;
+}
+
+@media only screen and (max-width: 600px) {
+	.container-add {
+		width: 100%;
+		border: none
+	}
+}
