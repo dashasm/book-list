@@ -59,21 +59,10 @@ export const AddBook: React.FC<Props> = ({ books }) => {
 
 
   const validation = () => {
-    if (title.trim().length === 0) {
-      setTitleCheck(true);
-    } else {
-      setTitleCheck(false);
-    }
-    if (author.trim().length === 0) {
-      setAuthorCheck(true);
-    } else {
-      setAuthorCheck(false);
-    }
-    if (isbn === '') {
-      setIsbnCheck(true);
-    } else {
-      setIsbnCheck(false);
-    }
+    titleValidation(title);
+    authorValidation(author);
+    isbnValidation(isbn);
+    selectValidation(category)
   }
 
   const selectValidation = (value: string) => {
@@ -84,11 +73,35 @@ export const AddBook: React.FC<Props> = ({ books }) => {
     }
   }
 
+  const titleValidation = (value: string) => {
+    if (value.trim().length === 0) {
+      setTitleCheck(true);
+    } else {
+      setTitleCheck(false);
+    }
+  }
+
+  const authorValidation = (value: string) => {
+    if (value.trim().length === 0) {
+      setAuthorCheck(true);
+    } else {
+      setAuthorCheck(false);
+    }
+  }
+
+  const isbnValidation = (value: string | number) => {
+    if (value === '') {
+      setIsbnCheck(true);
+    } else {
+      setIsbnCheck(false);
+    }
+  }
+
   return (
     <>
       {error.length !== 0 &&
         <p className="message is-danger has-text-centered is-large mt-4">
-          Hello
+          {error}
        </p>
       }
 
@@ -118,7 +131,8 @@ export const AddBook: React.FC<Props> = ({ books }) => {
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);
-                  validation()
+                  titleValidation(e.target.value)
+                  // validation()
                 }}
                 required
               />
@@ -143,7 +157,8 @@ export const AddBook: React.FC<Props> = ({ books }) => {
                 value={author}
                 onChange={(e) => {
                   setAuthor(e.target.value)
-                  validation()
+                  authorValidation(e.target.value)
+                  // validation()
                 }}
                 required
               />
@@ -155,7 +170,7 @@ export const AddBook: React.FC<Props> = ({ books }) => {
 
         <div className="field">
           <label className="label">
-            ISBN
+            ISBN number
             <div className="control">
               <input
                 className={cn(
@@ -164,12 +179,13 @@ export const AddBook: React.FC<Props> = ({ books }) => {
                   { 'is-success': isbn }
                 )}
                 type="text"
-                placeholder="ISBN input"
+                placeholder="ISBN number input"
                 required
                 value={isbn}
                 onChange={(e) => {
                   checkIsbnValue(e)
-                  validation()
+                  isbnValidation(e.target.value)
+                  // validation()
                 }}
               />
             </div>
@@ -211,7 +227,10 @@ export const AddBook: React.FC<Props> = ({ books }) => {
             <button
               className="button is-link"
               type="submit"
-              onClick={() => validation()}
+              onClick={() => {
+                validation()
+                selectValidation(category)
+              }}
             >
               Submit
             </button>
