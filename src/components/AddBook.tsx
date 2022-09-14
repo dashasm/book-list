@@ -60,15 +60,24 @@ export const AddBook: React.FC<Props> = ({ books }) => {
   const validation = () => {
     if (title.trim().length === 0) {
       setTitleCheck(true);
+    } else {
+      setTitleCheck(false);
     }
     if (author.trim().length === 0) {
       setAuthorCheck(true);
+    } else {
+      setAuthorCheck(false);
     }
     if (isbn === '') {
       setIsbnCheck(true);
+    } else {
+      setIsbnCheck(false);
     }
+    console.log(category)
     if (category === '') {
       setCategoryCheck(true);
+    } else {
+      setCategoryCheck(false);
     }
   }
 
@@ -104,7 +113,10 @@ export const AddBook: React.FC<Props> = ({ books }) => {
                 type="text"
                 placeholder="Title"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  validation()
+                }}
                 required
               />
             </div>
@@ -126,7 +138,10 @@ export const AddBook: React.FC<Props> = ({ books }) => {
                 type="text"
                 placeholder="Author"
                 value={author}
-                onChange={(e) => setAuthor(e.target.value)}
+                onChange={(e) => {
+                  setAuthor(e.target.value)
+                  validation()
+                }}
                 required
               />
             </div>
@@ -149,7 +164,10 @@ export const AddBook: React.FC<Props> = ({ books }) => {
                 placeholder="ISBN input"
                 required
                 value={isbn}
-                onChange={(e) => checkIsbnValue(e)}
+                onChange={(e) => {
+                  checkIsbnValue(e)
+                  validation()
+                }}
               />
             </div>
           </label>
@@ -162,10 +180,13 @@ export const AddBook: React.FC<Props> = ({ books }) => {
             Category
           </label>
           <div className="control">
-            <div className={cn("select", {"is-danger": categoryCheck},{ 'is-success': category })}>
+            <div className={cn("select", {"is-danger": categoryCheck},{ 'is-success': category !== '' })}>
               <select
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => {
+                  setCategory(e.target.value)
+                  validation()
+                }}
                 required
               >
                 <option value="" disabled>Select dropdown</option>

@@ -1,5 +1,13 @@
 {
-  "posts": [],
+  "posts": [
+    {
+      "id": 1,
+      "title": "alic",
+      "author": "Den Z",
+      "category": "Drama",
+      "isbn": "345"
+    }
+  ],
   "comments": [],
   "profile": {
     "name": "typicode"

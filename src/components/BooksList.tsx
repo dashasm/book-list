@@ -5,6 +5,8 @@ import { Loader } from './Loader'
 
 import { Book } from '../types'
 
+import '../style.scss'
+
 interface Props {
   books: Book[]
   setBooks: (books: Book[]) => void
@@ -82,11 +84,11 @@ export const BooksList: React.FC<Props> = (
 
             return (
               <tr key={book.id}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.category}</td>
-                <td>{book.isbn}</td>
-                <td>
+                <td className="vertilac_align">{book.title}</td>
+                <td className="vertilac_align">{book.author}</td>
+                <td className="vertilac_align">{book.category}</td>
+                <td className="vertilac_align">{book.isbn}</td>
+                <td className="vertilac_align">
                   <button
                     type="button"
                     className="button mr-1"
