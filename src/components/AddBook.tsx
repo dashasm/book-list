@@ -57,6 +57,7 @@ export const AddBook: React.FC<Props> = ({ books }) => {
     setIsbn(value)
   }
 
+
   const validation = () => {
     if (title.trim().length === 0) {
       setTitleCheck(true);
@@ -73,8 +74,10 @@ export const AddBook: React.FC<Props> = ({ books }) => {
     } else {
       setIsbnCheck(false);
     }
-    console.log(category)
-    if (category === '') {
+  }
+
+  const selectValidation = (value: string) => {
+    if (value === '') {
       setCategoryCheck(true);
     } else {
       setCategoryCheck(false);
@@ -185,7 +188,7 @@ export const AddBook: React.FC<Props> = ({ books }) => {
                 value={category}
                 onChange={(e) => {
                   setCategory(e.target.value)
-                  validation()
+                  selectValidation(e.target.value)
                 }}
                 required
               >

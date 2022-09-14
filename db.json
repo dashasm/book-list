@@ -4,7 +4,14 @@
       "id": 1,
       "title": "alic",
       "author": "Den Z",
-      "category": "Drama",
+      "category": "Triller",
+      "isbn": "345"
+    },
+    {
+      "id": 2,
+      "title": "dasha",
+      "author": "Semeniy",
+      "category": "Fantasy",
       "isbn": "345"
     }
   ],
