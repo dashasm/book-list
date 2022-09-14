@@ -4,7 +4,7 @@ import { Book } from '../types/Book'
 
 import { addBook } from '../api'
 
-import '../style.css'
+import '../style.scss'
 
 interface Props {
   books: Book[]

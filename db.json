@@ -1,13 +1,5 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "title": "Alica",
-      "author": "Den M",
-      "category": "Fantasy",
-      "isbn": "6778"
-    }
-  ],
+  "posts": [],
   "comments": [],
   "profile": {
     "name": "typicode"

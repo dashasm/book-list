@@ -58,6 +58,8 @@ export const BooksList: React.FC<Props> = (
         List of books
       </h2>
 
+      {!books.length && <p className="mb-4 has-text-centered">There are no books on the server, but you can add new book</p>}
+
       <table
         data-cy="peopleTable"
         className="table is-hoverable is-narrow is-fullwidth"
@@ -73,7 +75,6 @@ export const BooksList: React.FC<Props> = (
         </thead>
 
         <tbody>
-          {!books.length && <p>There are no books on the server</p>}
           {(books.length > 0) && books.map(book => {
             if (loading && book.id === activeBookId) {
               return <Loader key={book.id}/>
