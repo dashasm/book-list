@@ -1,21 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cn from 'classnames'
-import { Book } from './types/Book'
-
-import { addBook } from './api'
-
-import './style.css'
+import { getBook, updateBook } from '../api'
+import { Book } from '../types'
 
 interface Props {
-  books: Book[]
+  editBookId: number
 }
 
-export const AddBook: React.FC<Props> = ({ books }) => {
+export const EditBook: React.FC<Props> = ({ editBookId }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [category, setCategory] = useState('')
   const [isbn, setIsbn] = useState<string | number>('')
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    getBook(editBookId).then(res => {
+      setTitle(res.title)
+      setAuthor(res.author)
+      setIsbn(res.isbn)
+      setCategory(res.category)
+    }).catch(() => {
+      setError('Unable to download books')
+    })
+  }, [])
 
   const clearForm = (e: React.FormEvent<HTMLButtonElement>): void => {
     e.preventDefault()
@@ -29,17 +37,15 @@ export const AddBook: React.FC<Props> = ({ books }) => {
     e.preventDefault()
 
     try {
-      const newId = Math.max(...books.map(book => book.id)) + 1
-
       const book: Book = {
-        id: newId,
+        id: editBookId,
         title,
         author,
         category,
         isbn
       }
 
-      await addBook(book)
+      await updateBook(book)
       window.location.assign('/')
     } catch {
       setError('Could not add a book')
@@ -54,12 +60,14 @@ export const AddBook: React.FC<Props> = ({ books }) => {
 
   return (
     <>
-      {error.length !== 0 &&
-        <p className="message is-danger has-text-centered is-large mt-4">
-          Hello
-       </p>
+      {
+        error.length !== 0 &&
+        (
+          <p className="message is-danger has-text-centered is-large">
+            {error}
+          </p>
+        )
       }
-
       <form
         // eslint-disable-next-line max-len
         className="container-add is-medium is-flex is-flex-direction-column is-justify-content-center border bg-color"
@@ -69,7 +77,7 @@ export const AddBook: React.FC<Props> = ({ books }) => {
         // eslint-disable-next-line max-len
           className="content is-medium is-flex is-justify-content-center h2-color"
         >
-          Add a book
+          Edit a book
         </h2>
         <div className="field">
           <label className="label">
@@ -168,7 +176,7 @@ export const AddBook: React.FC<Props> = ({ books }) => {
               className="button is-link"
               type="submit"
             >
-              Submit
+              Save
             </button>
           </div>
           <div className="control">

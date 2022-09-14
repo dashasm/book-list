@@ -1,20 +1,24 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
-import { BooksList } from './BooksList'
-import { AddBook } from './AddBook'
-import { Nav } from './Nav'
+import { BooksList } from './components/BooksList'
+import { AddBook } from './components/AddBook'
+import { Nav } from './components/Nav'
 import { getPosts } from './api'
 import { Book } from './types'
-import { EditBook } from './EditBook'
+import { EditBook } from './components/EditBook'
 
 export const App = () => {
   const [books, setBooks] = useState<Book[]>([])
   const [editBookId, setEditBookId] = useState<number>(0)
+  const [error, setError] = useState('');
 
   useEffect(() => {
     // eslint-disable-next-line
     getPosts()
       .then(setBooks)
+      .catch(() => {
+        setError('Error with loading books');
+      });
   }, [])
 
   return (
@@ -31,6 +35,7 @@ export const App = () => {
                   books={books}
                   setBooks={setBooks}
                   setEditBookId={setEditBookId}
+                  errorWithServer={error}
                 />
               )}
             />

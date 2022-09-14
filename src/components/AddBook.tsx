@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import cn from 'classnames'
-import { getBook, updateBook } from './api'
-import { Book } from './types'
+import { Book } from '../types/Book'
+
+import { addBook } from '../api'
+
+import '../style.css'
 
 interface Props {
-  editBookId: number
+  books: Book[]
 }
 
-export const EditBook: React.FC<Props> = ({ editBookId }) => {
+export const AddBook: React.FC<Props> = ({ books }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [category, setCategory] = useState('')
   const [isbn, setIsbn] = useState<string | number>('')
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    getBook(editBookId).then(res => {
-      setTitle(res.title)
-      setAuthor(res.author)
-      setIsbn(res.isbn)
-      setCategory(res.category)
-    }).catch(() => {
-      setError('Unable to download books')
-    })
-  }, [])
+  const [titleCheck, setTitleCheck] = useState(false);
+  const [authorCheck, setAuthorCheck] = useState(false);
+  const [isbnCheck, setIsbnCheck] = useState(false);
+  const [categoryCheck, setCategoryCheck] = useState(false);
 
   const clearForm = (e: React.FormEvent<HTMLButtonElement>): void => {
     e.preventDefault()
@@ -34,18 +31,20 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
   }
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
+      const newId = Math.max(...books.map(book => book.id)) + 1
+
       const book: Book = {
-        id: editBookId,
+        id: newId,
         title,
         author,
         category,
         isbn
       }
 
-      await updateBook(book)
+      await addBook(book)
       window.location.assign('/')
     } catch {
       setError('Could not add a book')
@@ -58,16 +57,29 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
     setIsbn(value)
   }
 
+  const validation = () => {
+    if (title.trim().length === 0) {
+      setTitleCheck(true);
+    }
+    if (author.trim().length === 0) {
+      setAuthorCheck(true);
+    }
+    if (isbn === '') {
+      setIsbnCheck(true);
+    }
+    if (category === '') {
+      setCategoryCheck(true);
+    }
+  }
+
   return (
     <>
-      {
-        error.length !== 0 &&
-        (
-          <p className="message is-danger has-text-centered is-large">
-            {error}
-          </p>
-        )
+      {error.length !== 0 &&
+        <p className="message is-danger has-text-centered is-large mt-4">
+          Hello
+       </p>
       }
+
       <form
         // eslint-disable-next-line max-len
         className="container-add is-medium is-flex is-flex-direction-column is-justify-content-center border bg-color"
@@ -77,7 +89,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
         // eslint-disable-next-line max-len
           className="content is-medium is-flex is-justify-content-center h2-color"
         >
-          Edit a book
+          Add a book
         </h2>
         <div className="field">
           <label className="label">
@@ -86,7 +98,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
               <input
                 className={cn(
                   'input',
-                  { 'is-danger': title.trim().length === 0 },
+                  { 'is-danger': titleCheck },
                   { 'is-success': title.trim().length !== 0 }
                 )}
                 type="text"
@@ -97,7 +109,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
               />
             </div>
           </label>
-          {title.trim().length === 0 &&
+          {titleCheck &&
             <p className="help is-danger">This title is invalid</p>}
         </div>
 
@@ -108,7 +120,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
               <input
                 className={cn(
                   'input',
-                  { 'is-danger': author.trim().length === 0 },
+                  { 'is-danger': authorCheck },
                   { 'is-success': author.trim().length !== 0 }
                 )}
                 type="text"
@@ -119,7 +131,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
               />
             </div>
           </label>
-          {author.trim().length === 0 &&
+          {authorCheck &&
             <p className="help is-danger">This author is invalid</p>}
         </div>
 
@@ -130,7 +142,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
               <input
                 className={cn(
                   'input',
-                  { 'is-danger': isbn === '' },
+                  { 'is-danger': isbnCheck },
                   { 'is-success': isbn }
                 )}
                 type="text"
@@ -141,7 +153,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
               />
             </div>
           </label>
-          {isbn === '' &&
+          {isbnCheck &&
             <p className="help is-danger">This ISBN is invalid</p>}
         </div>
 
@@ -150,7 +162,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
             Category
           </label>
           <div className="control">
-            <div className="select">
+            <div className={cn("select", {"is-danger": categoryCheck},{ 'is-success': category })}>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -166,7 +178,7 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
               </select>
             </div>
           </div>
-          {category === '' &&
+          {categoryCheck &&
             <p className="help is-danger">Please choose a category</p>}
         </div>
 
@@ -175,8 +187,9 @@ export const EditBook: React.FC<Props> = ({ editBookId }) => {
             <button
               className="button is-link"
               type="submit"
+              onClick={() => validation()}
             >
-              Save
+              Submit
             </button>
           </div>
           <div className="control">

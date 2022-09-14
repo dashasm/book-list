@@ -2,19 +2,13 @@
   "posts": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode",
-      "category": "Drama",
-      "isbn": "123"
+      "title": "Alica",
+      "author": "Den M",
+      "category": "Fantasy",
+      "isbn": "6778"
     }
   ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
+  "comments": [],
   "profile": {
     "name": "typicode"
   }

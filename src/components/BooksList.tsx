@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { deleteBook } from './api'
-import { Loader } from './components/Loader'
+import { deleteBook } from '../api'
+import { Loader } from './Loader'
 
-import { Book } from './types'
+import { Book } from '../types'
 
 interface Props {
   books: Book[]
   setBooks: (books: Book[]) => void
   setEditBookId: (bookId: number) => void
+  errorWithServer: string
 }
 
 export const BooksList: React.FC<Props> = (
   {
-    books, setBooks, setEditBookId
+    books, setBooks, setEditBookId, errorWithServer
   }
 ) => {
   const [error, setError] = useState('')
@@ -45,7 +46,12 @@ export const BooksList: React.FC<Props> = (
     <>
       {error.length !== 0 &&
         <p className="message is-danger has-text-centered is-large mt-4">
-          Hello
+          {error}
+       </p>
+      }
+      {errorWithServer.length !== 0 &&
+        <p className="message is-danger has-text-centered is-large mt-4">
+          {errorWithServer}
        </p>
       }
       <h2 className="content is-medium is-flex is-justify-content-center mt-4">
@@ -67,6 +73,7 @@ export const BooksList: React.FC<Props> = (
         </thead>
 
         <tbody>
+          {!books.length && <p>There are no books on the server</p>}
           {(books.length > 0) && books.map(book => {
             if (loading && book.id === activeBookId) {
               return <Loader key={book.id}/>
