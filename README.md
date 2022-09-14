@@ -1,7 +1,5 @@
 # Book-list
 
--[DEMO LINK](https://dashasm.github.io/book-list/)
-
 Instructions how to run app locally:
 
 1. You need to clone the repository, open terminal and use this command:
