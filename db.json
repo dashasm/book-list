@@ -3,7 +3,9 @@
     {
       "id": 1,
       "title": "json-server",
-      "author": "typicode"
+      "author": "typicode",
+      "category": "Drama",
+      "isbn": "123"
     }
   ],
   "comments": [
