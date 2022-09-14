@@ -29,10 +29,10 @@ npm i
 npm install -g json-server
 ```
 
-5. Then start server in terminal:
+5. Then start server on port: 4000 in terminal:
 
 ```
-json-server --watch db.json
+json-server -p 4000 db.json
 ```
 
 6. Open another terminal in the directory with app and run project by command:
